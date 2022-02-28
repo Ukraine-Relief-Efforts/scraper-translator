@@ -15,12 +15,36 @@ async function translate(texts, source, dest) {
     };
 
     const [response] = await translationClient.translateText(request);
-
-    return response.translations;
+    let res_arr = [];
+    for (const res of response.translations) {
+        res_arr.push(res.translatedText);
+    };
+    return res_arr;
 }
 
+async function translate_receptions(receptions, source, dest) {
+    let text_arr = [];
+    for (const val of receptions) {
+        text_arr.push(val.name);
+        text_arr.push(val.address);
+    }
+    const trans_text_arr = await translate(text_arr, source, dest);
+    for (let val of receptions) {
+        val.name = trans_text_arr.shift();
+        val.address = trans_text_arr.shift();
+    }
+
+    return receptions;
+}
+
+module.exports = {
+    translate_receptions: translate_receptions,
+    translate: translate,
+};
+/*
 translate(["test text version 1", "this is a test 2"], 'en', 'fr').then(function(responses) {
     for (const response of responses) {
         console.log(response);
     }
 });
+*/
