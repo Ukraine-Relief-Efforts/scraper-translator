@@ -61,18 +61,7 @@ function find_idx_in_reception(arr, val) {
     return -1;
 }
 
-async function main() {
-    //let p  = await getFromDynamo("poland-en").promise();
-    //let p2 = await getFromDynamo("poland-en-old").promise();
-
-    const new_val = poland_en_v2;
-    const old_val = poland_en_v1;
-    const old_val_translated = poland_en_v1; //for test
-
-    const source = 'en';
-    const dest = 'pl';
-    //actually all of this is for test
-
+async function translate_object(old_val, new_val, old_val_translated, source, dest) {
     let new_val_translated = {
         isoFormat: new_val.isoFormat,
         country: new_val.country,
@@ -87,18 +76,16 @@ async function main() {
     for (const val of new_val["reception"]) {
         //order doesn't matter so just see if it is in the other array
         if (reception_includes(old_val["reception"], val)) {
-            console.log("Same: ", val);
 
             //black magic to get the original translated version
             const idx = find_idx_in_reception(old_val_translated.reception, val);
             if (idx == -1) {
-                console.log("idx is -1 lol");
+                console.log("Reception doesn't have a translation when it really should - something has gone wrong (not fatal)");
                 //doesn't exist in translation, translate it again I guess
-                //TODO do it
+                receptions_to_be_translated.push(val);
             }
             new_val_translated.reception.push(old_val_translated.reception[idx])
         } else {
-            console.log("Not same: ", val);
             receptions_to_be_translated.push(val);
         }
     }
@@ -124,7 +111,6 @@ async function main() {
     //get translations that we don't already know
     for (const line of new_val["general"]) {
         if (!(line in general_translations)) {
-            console.log("Translating new line " + line);
             texts_to_translate.push(line);
         }
     }
@@ -142,8 +128,8 @@ async function main() {
     for (const line of new_val["general"]) {
         new_val_translated["general"].push(general_translations[line]);
     }
-    console.log(new_val_translated);
+    return new_val_translated;
 }
 
 //DEBUG DEBUG DEBUG
-main();
+//translate_object(poland_en_v1, poland_en_v2, poland_en_v1, 'en', 'pl').then(function(data){console.log(data);});
