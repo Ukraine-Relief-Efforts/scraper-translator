@@ -6,6 +6,7 @@ const {TranslationServiceClient} = require('@google-cloud/translate');
 const translationClient = new TranslationServiceClient();
 
 async function translate(texts, source, dest) {
+    if (texts.length == 0) return [];
     const request = {
         parent: `projects/${projectId}/locations/${location}`,
         contents: texts,

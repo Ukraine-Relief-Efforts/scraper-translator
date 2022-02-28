@@ -64,11 +64,13 @@ function find_idx_in_reception(arr, val) {
 async function main() {
     //let p  = await getFromDynamo("poland-en").promise();
     //let p2 = await getFromDynamo("poland-en-old").promise();
-    //console.log(p);
 
     const new_val = poland_en_v2;
     const old_val = poland_en_v1;
     const old_val_translated = poland_en_v1; //for test
+
+    const source = 'en';
+    const dest = 'pl';
     //actually all of this is for test
 
     let new_val_translated = {
@@ -102,20 +104,46 @@ async function main() {
     }
 
     //TODO wtf is that name
-    let receptions_that_have_been_translated = await translator.translate_receptions(receptions_to_be_translated, "en", "pl");
+    let receptions_that_have_been_translated = await translator.translate_receptions(receptions_to_be_translated, source, dest);
     for (const val of receptions_that_have_been_translated) {
         new_val_translated.reception.push(val);
     }
     console.log(new_val_translated);
 
-    for (const line of new_val["general"]) {
-        //this one is more complex as order does matter
+    //build a key/value object of all the currently known translations
+    //use it to translate as much as possible, and anything we don't already know
+    //is sent off to google translate
+    let general_translations = {};
+
+    //get translations we already know
+    for (let i = 0; i < old_val.general.length; i++) {
+        general_translations[old_val.general[i]] = old_val_translated.general[i];
     }
+
+    texts_to_translate = [];
+    //get translations that we don't already know
+    for (const line of new_val["general"]) {
+        if (!(line in general_translations)) {
+            console.log("Translating new line " + line);
+            texts_to_translate.push(line);
+        }
+    }
+
+    let translated_texts = await translator.translate(texts_to_translate, source, dest);
+    if (translated_texts.length != texts_to_translate.length) {
+        console.log("Terrible error has occured: wrong length translated text");
+        return;
+    }
+    for (let i = 0; i < texts_to_translate.length; i++) {
+        general_translations[texts_to_translate[i]] = translated_texts[i];
+    }
+
+    //use the generated dictionary to translate the actual text
+    for (const line of new_val["general"]) {
+        new_val_translated["general"].push(general_translations[line]);
+    }
+    console.log(new_val_translated);
 }
 
-var __name__ = "__main__";
-
-//python moment
-if (__name__ == "__main__") {
-    main();
-}
+//DEBUG DEBUG DEBUG
+main();
