@@ -36,7 +36,11 @@ export const handler = async(event, context) => {
             //don't translate if it's already in that language
             if (target_locale === source_locale) continue;
 
-            let old_val = getFromDynamo
+            const old_val = await getFromDynamo(source_entry + "-" + source_locale + "-old");
+            const old_val_translated = await getFromDynamo(source_entry + "-" + target_locale); //TODO: what happens if there isn't an old_val_translated?
+            const new_val = await getFromDynamo(source_entry + "-" + source_locale);
+            const new_val_translated = translat_object(old_val, new_val, old_val_translated, source_locale, dest_locale);
+            await putToDynamo(new_val_translated);
         }
     }
 
