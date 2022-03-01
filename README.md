@@ -19,3 +19,6 @@ choco install awssamcli
 ```
 
 Run `sam build`
+
+# Run Test
+`npm run test`
