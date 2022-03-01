@@ -1,4 +1,9 @@
 {
+  "type": "module",
+  "main": "src/handlers/scraper-translation.js",
+  "scripts": {
+    "test": "node --experimental-modules src/test/test-handler.js"
+  },
   "dependencies": {
     "@google-cloud/translate": "^6.3.1",
     "aws-sdk": "^2.1082.0"
