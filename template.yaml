@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  scraper-translator
+# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
+Transform:
+  - AWS::Serverless-2016-10-31
+
+# Resources declares the AWS resources that you want to include in the stack
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Resources:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  ScraperTranslator:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: A lambda function that translates scraped content
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Handler: ./translator.handler # TODO: Placeholder
+      # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#schedule
+      # Run every 10 minutes
+      Events:
+        CloudWatchEvent:
+          Type: Schedule
+          Properties:
+            Schedule: cron(*/10 * * * *)
+      MemorySize: 128
+      Timeout: 100

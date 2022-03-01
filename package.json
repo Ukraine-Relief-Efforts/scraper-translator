@@ -1,4 +1,10 @@
 {
+  "name": "scraper-translator",
+  "version": "0.0.1",
+  "bundledDependencies": [
+    "@google-cloud/translate",
+    "aws-sdk"
+  ],
   "type": "module",
   "main": "src/handlers/scraper-translation.js",
   "scripts": {
