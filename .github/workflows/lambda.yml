@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: test-lambda
     steps:
-      - run: echo "${{ secrets.GOOGLE_CLOUD }}" >> google_cloud_secret.json
       - uses: actions/checkout@v2
+      - run: echo "${{ secrets.GOOGLE_CLOUD }}" >> google_cloud_secret.json
       - uses: actions/setup-node/@v2
       - uses: aws-actions/setup-sam@v1
       - uses: aws-actions/configure-aws-credentials@v1
