@@ -32,4 +32,5 @@ jobs:
       - run: ls -la
       - run: sam build
       - run: cat .aws-sam/build.toml
-      - run: sam deploy --no-fail-on-empty-changeset
+      - run: sam deploy --no-fail-on-empty-changeset --resolve-s3
+      - run: cat samconfig.toml
