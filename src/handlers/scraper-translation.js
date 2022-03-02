@@ -44,6 +44,7 @@ export const handler = async(event, context) => {
             try {
                 const old_val            = await getFromDynamo(source_entry + "-" + source_locale + "-old");
                 const old_val_translated = await getFromDynamo(source_entry + "-" + target_locale);
+                console.log(old_val_translated);
                 if (old_val === undefined || old_val_translated === undefined) {
                     null.toString(); //hack fix: somehow just cause it to to to the `catch` blocks
                 }
