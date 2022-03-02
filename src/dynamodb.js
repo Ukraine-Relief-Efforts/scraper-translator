@@ -25,7 +25,7 @@ export function getFromDynamo(country) {
             } else {
                 console.log("Successfully got", country, "from dynamo");
                 console.log(JSON.stringify(data));
-                resolve(AWS.Dynamo.DB.Converter.unmarshall(data["Item"]));
+                resolve(AWS.DynamoDB.Converter.unmarshall(data["Item"]));
             }
         });
     });
