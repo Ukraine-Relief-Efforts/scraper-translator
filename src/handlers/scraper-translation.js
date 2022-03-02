@@ -40,11 +40,14 @@ export const handler = async(event, context) => {
         for (const target_locale of target_locales) {
             //don't translate if it's already in that language
             if (target_locale === source_locale) continue;
-
+            console.log("Translating " + source_entry + "-" + source_locale + " to " + target_locale);
             const new_val = await getFromDynamo(source_entry + "-" + source_locale);
             try {
                 const old_val            = await getFromDynamo(source_entry + "-" + source_locale + "-old");
                 const old_val_translated = await getFromDynamo(source_entry + "-" + target_locale);
+                if (old_val === undefined || old_val_translated === undefined) {
+                    null.toString(); //hack fix: somehow just cause it to to to the `catch` blocks
+                }
                 const new_val_translated = translate_object(old_val, new_val, old_val_translated, source_locale, target_locale);
                 await putToDynamo(new_val_translated);
             } catch (e) {
