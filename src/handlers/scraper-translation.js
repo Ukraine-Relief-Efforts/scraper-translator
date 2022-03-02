@@ -45,12 +45,12 @@ export const handler = async(event, context) => {
             try {
                 const old_val            = await getFromDynamo(source_entry + "-" + source_locale + "-old");
                 const old_val_translated = await getFromDynamo(source_entry + "-" + target_locale);
-                const new_val_translated = translate_object(old_val, new_val, old_val_translated, source_locale, dest_locale);
+                const new_val_translated = translate_object(old_val, new_val, old_val_translated, source_locale, target_locale);
                 await putToDynamo(new_val_translated);
             } catch (e) {
                 //translate object from scratch if it doesn't exist
                 console.log("Translated object doesn't exist, here's the error just in case anything else went wrong: ", e);
-                const new_val_translated = translate_object_from_scratch(new_val, source_locale, dest_locale);
+                const new_val_translated = translate_object_from_scratch(new_val, source_locale, target_locale);
                 await putToDynamo(new_val_translated);
             }
         }
