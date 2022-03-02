@@ -1,6 +1,6 @@
 import {translate_object} from "../util.js";
 import { polandEn_v1 } from "../mocks/poland-en.js";
-import {getFromDynamo, putToDynamo} from "./dynamodb.js";
+import {getFromDynamo, putToDynamo} from "../dynamodb.js";
 
 import { fileURLToPath } from "url";
 import { dirname } from "path";
