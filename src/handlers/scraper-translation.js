@@ -1,4 +1,4 @@
-import {translate_object} from "../util.js";
+import {translate_object, translate_object_from_scratch} from "../util.js";
 import { polandEn_v1 } from "../mocks/poland-en.js";
 import {getFromDynamo, putToDynamo} from "../dynamodb.js";
 
