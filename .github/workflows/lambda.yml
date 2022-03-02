@@ -2,12 +2,11 @@ name: scraper-translator
 
 on:
   push:
-    branches: [ latest ]
-  pull_request:
     branches: [ main ]
 
 jobs:
   test-lambda:
+    name: Build & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,9 +18,11 @@ jobs:
   deploy-lambda:
     name: Deploy Scraper Translator
     runs-on: ubuntu-latest
-    needs: package-lambda
+    needs: test-lambda
     steps:
       - run: echo ${{ secrets.GOOGLE_CLOUD }} >> google_cloud_secret.json
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node/@v2
       - uses: aws-actions/setup-sam@v1
       - uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -29,3 +30,9 @@ jobs:
           aws-secret-access-key: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
           aws-region: 'us-east-1'
       - run: sam build && sam deploy --no-fail-on-empty-changeset
+      - run: pwd
+      - run: ls -la
+      - run: sam build
+      - run: cat .aws-sam/build.toml
+      - run: sam deploy --no-fail-on-empty-changeset
+      - run: cat samconfig.toml
