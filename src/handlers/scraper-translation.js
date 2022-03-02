@@ -24,11 +24,16 @@ export const handler = async(event, context) => {
         "pl": "pl",
         "rs": "sr",
         "ua": "uk",
+        "hu": "hu",
+        "ro": "ro",
+        "ru": "ru",
     };
 
-    const target_locales = ["de", "en", "es", "it", "kr", "pl", "rs", "ru", "ua"];
-    const source_locales = ["hu", "ro", "pl", "ro"];
-    const source_entries = ["hungary", "moldova", "poland", "romania"];
+    //NOTE: order matters, high value languages first (in case something goes terribly wrong)
+    
+    const target_locales = ["ua", "ru", "en", "pl", "rs", "ro", "hu", "de", "es", "it", "kr"];
+    const source_locales = ["hu",      "ro",      "pl",     "ro"];
+    const source_entries = ["hungary", "moldova", "poland", "romania"]; //TODO get this list automatically?
     for (let i = 0; i < source_entries.length; i++) {
         const source_entry = source_entries[i];
         const source_locale = source_locales[i];
@@ -36,15 +41,18 @@ export const handler = async(event, context) => {
             //don't translate if it's already in that language
             if (target_locale === source_locale) continue;
 
-            const old_val = await getFromDynamo(source_entry + "-" + source_locale + "-old");
-            const old_val_translated = await getFromDynamo(source_entry + "-" + target_locale); //TODO: what happens if there isn't an old_val_translated?
             const new_val = await getFromDynamo(source_entry + "-" + source_locale);
-            const new_val_translated = translat_object(old_val, new_val, old_val_translated, source_locale, dest_locale);
-            await putToDynamo(new_val_translated);
+            try {
+                const old_val            = await getFromDynamo(source_entry + "-" + source_locale + "-old");
+                const old_val_translated = await getFromDynamo(source_entry + "-" + target_locale);
+                const new_val_translated = translate_object(old_val, new_val, old_val_translated, source_locale, dest_locale);
+                await putToDynamo(new_val_translated);
+            } catch (e) {
+                //translate object from scratch if it doesn't exist
+                console.log("Translated object doesn't exist, here's the error just in case anything else went wrong: ", e);
+                const new_val_translated = translate_object_from_scratch(new_val, source_locale, dest_locale);
+                await putToDynamo(new_val_translated);
+            }
         }
     }
-
-    // Do translation work here
-    // translate_object();
-
 }

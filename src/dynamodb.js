@@ -24,7 +24,7 @@ export function getFromDynamo(country) {
             } else {
                 console.log("Successfully got", country, "from dynamo");
                 console.log(JSON.stringify(data));
-                resolve(data["Item"]);
+                resolve(AWS.Dynamo.DB.Converter.unmarshall(data["Item"]));
             }
         });
     });
@@ -33,7 +33,7 @@ export function getFromDynamo(country) {
 export function putToDynamo(item) {
     var params = {
         TableName: "TechForUkraine-CIG",
-        Item: item
+        Item: AWS.DynamoDB.Converter.marshall(item)
     };
     
     return new Promise((resolve, reject) => {

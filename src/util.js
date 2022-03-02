@@ -47,7 +47,7 @@ export async function translate_object(old_val, new_val, old_val_translated, sou
         //order doesn't matter so just see if it is in the other array
         if (reception_includes(old_val["reception"], val)) {
 
-            //black magic to get the original translated version
+            //black magic to get the old translated version
             const idx = find_idx_in_reception(old_val_translated.reception, val);
             if (idx === -1) {
                 console.log("Reception doesn't have a translation when it really should - something has gone wrong (not fatal)");
@@ -61,8 +61,8 @@ export async function translate_object(old_val, new_val, old_val_translated, sou
     }
 
     //TODO wtf is that name
-    let receptions_that_have_been_translated = await translate_receptions(receptions_to_be_translated, source, dest);
-    for (const val of receptions_that_have_been_translated) {
+    let receptions_that_have_just_right_now_been_translated = await translate_receptions(receptions_to_be_translated, source, dest);
+    for (const val of receptions_that_have_just_right_now_been_translated) {
         new_val_translated.reception.push(val);
     }
 
@@ -97,6 +97,18 @@ export async function translate_object(old_val, new_val, old_val_translated, sou
     for (const line of new_val["general"]) {
         new_val_translated["general"].push(general_translations[line]);
     }
+    return new_val_translated;
+}
+
+export async function translate_object_from_scratch(new_val, source, dest) {
+    let new_val_translated = {
+        isoFormat: new_val.isoFormat,
+        country:   new_val.country,
+        dateTime:  new_val.dateTime,
+        source:    new_val.source,
+        general:   await translate(new_val.general, source, dest),
+        reception: await translate_receptions(new_val.reception, source, dest),
+    };
     return new_val_translated;
 }
 
