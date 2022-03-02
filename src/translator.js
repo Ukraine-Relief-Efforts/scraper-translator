@@ -6,7 +6,6 @@ const location = 'global';
 const translationClient = new TranslationServiceClient();
 
 export async function translate(texts, source, dest) {
-
     if (texts.length === 0) return [];
 
     const request = {
@@ -26,7 +25,6 @@ export async function translate(texts, source, dest) {
     }
 
     return res_arr;
-
 }
 
 export async function translate_receptions(receptions, source, dest) {
