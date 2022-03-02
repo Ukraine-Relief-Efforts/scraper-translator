@@ -2,8 +2,6 @@ name: scraper-translator
 
 on:
   push:
-    branches: [ latest ]
-  pull_request:
     branches: [ main ]
 
 jobs:
