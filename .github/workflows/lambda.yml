@@ -30,7 +30,6 @@ jobs:
           aws-region: 'us-east-1'
       - run: pwd
       - run: ls -la
-      - run: aws cloudformation delete-stack --stack-name scraper-translator
       - run: sam build
       - run: cat .aws-sam/build.toml
       - run: sam deploy --no-fail-on-empty-changeset
