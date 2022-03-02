@@ -10,6 +10,7 @@ function reception_equals(r1, r2) {
 }
 
 function reception_includes(arr, val) {
+    console.log("In includes thingie:", arr);
     for (const v of arr) {
         if (reception_equals(val, v)) return true;
     }
@@ -20,6 +21,7 @@ function reception_includes(arr, val) {
 function find_idx_in_reception(arr, val) {
     //get the index in the translated array, assuming coords are unique
     let idx = 0;
+    console.log("In idx thingie:", arr);
     for (const translated of arr) {
         if (translated.lat === val.lat &&
             translated.lon === val.lon) {
