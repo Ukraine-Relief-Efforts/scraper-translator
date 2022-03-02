@@ -1,5 +1,5 @@
 import { TranslationServiceClient } from "@google-cloud/translate";
-import {AWS} from 'aws-sdk';
+import AWS from 'aws-sdk';
 let dynamodb = new AWS.DynamoDB();
 
 AWS.config.update({
