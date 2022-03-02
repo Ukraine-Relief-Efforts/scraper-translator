@@ -19,7 +19,7 @@ jobs:
   deploy-lambda:
     name: Deploy Scraper Translator
     runs-on: ubuntu-latest
-    needs: package-lambda
+    needs: test-lambda
     steps:
       - uses: aws-actions/setup-sam@v1
       - uses: aws-actions/configure-aws-credentials@v1
