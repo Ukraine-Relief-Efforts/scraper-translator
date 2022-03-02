@@ -20,11 +20,11 @@ export function getFromDynamo(country) {
         dynamodb.getItem(params, function(err, data) {
             if (err) {
                 console.log("An error occurred GETting country from dynamo");
-                console.log(err, err.stack);
+                //console.log(err, err.stack);
                 reject(err);
             } else {
                 console.log("Successfully got", country, "from dynamo");
-                console.log(JSON.stringify(data));
+                //console.log(JSON.stringify(data));
                 resolve(AWS.DynamoDB.Converter.unmarshall(data["Item"]));
             }
         });
@@ -45,7 +45,7 @@ export function putToDynamo(item) {
                 reject(err);
             } else {
                 console.log("Successfully put", item["country"]["S"], "to dynamo");
-                console.log(JSON.stringify(data));
+                //console.log(JSON.stringify(data));
                 resolve(data);
             }
         });

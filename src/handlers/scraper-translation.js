@@ -13,7 +13,6 @@ const require = createRequire(import.meta.url);
 export const handler = async(event, context) => {
 
     console.log('Starting translator handler');
-    console.log(event);
 
     const locale_to_gtrans = {
         "de": "de",
