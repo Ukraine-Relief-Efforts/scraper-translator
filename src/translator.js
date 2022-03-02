@@ -3,7 +3,7 @@ import { TranslationServiceClient } from "@google-cloud/translate";
 const projectId = 'yt-research-283517';
 const location = 'global';
 
-const translationClient = new TranslationServiceClient();
+const translationClient = new TranslationServiceClient({"keyFilename": "google_cloud_secret.json"});
 
 export async function translate(texts, source, dest) {
     if (texts.length === 0) return [];
