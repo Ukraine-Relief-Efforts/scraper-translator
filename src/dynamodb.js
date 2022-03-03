@@ -40,6 +40,7 @@ export function putToDynamo(item) {
     return new Promise((resolve, reject) => {
         dynamodb.putItem(params, function(err, data) {
             if (err) {
+                console.log(item);
                 console.log("An error occurred PUTting country to dynamo");
                 console.log(err, err.stack);
                 reject(err);

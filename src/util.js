@@ -33,10 +33,10 @@ function find_idx_in_reception(arr, val) {
     return -1;
 }
 
-export async function translate_object(old_val, new_val, old_val_translated, source, dest) {
+export async function translate_object(old_val, new_val, old_val_translated, source, dest, country_name) {
     let new_val_translated = {
         isoFormat: new_val.isoFormat,
-        country:   new_val.country,
+        country:   country_name + "-" + dest,
         dateTime:  new_val.dateTime,
         source:    new_val.source,
         general:   [],
@@ -102,10 +102,10 @@ export async function translate_object(old_val, new_val, old_val_translated, sou
     return new_val_translated;
 }
 
-export async function translate_object_from_scratch(new_val, source, dest) {
+export async function translate_object_from_scratch(new_val, source, dest, country_name) {
     let new_val_translated = {
         isoFormat: new_val.isoFormat,
-        country:   new_val.country,
+        country:   country_name + "-" + dest,
         dateTime:  new_val.dateTime,
         source:    new_val.source,
         general:   await translate(new_val.general, source, dest),
