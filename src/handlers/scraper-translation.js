@@ -45,7 +45,9 @@ export const handler = async(event, context) => {
                 const old_val            = await getFromDynamo(source_entry + "-" + source_locale + "-old");
                 const old_val_translated = await getFromDynamo(source_entry + "-" + target_locale);
                 //TODO this check doesn't work!
-                if (old_val === undefined || old_val_translated === undefined || old_val === {} || old_val_translated === {} || old_val_translated.reception === undefined) {
+                if (Object.keys(old_val).length === 0 || Object.keys(old_val_translated).length === 0 || 
+                    Object.keys(old_val).length === 0 || Object.keys(old_val_translated).length === 0 || 
+                    Object.keys(old_val_translated.reception).length === 0) {
                     null.toString(); //hack fix: somehow just cause it to to to the `catch` blocks
                 }
                 const new_val_translated = translate_object(old_val, new_val, old_val_translated, source_locale, target_locale);
