@@ -1,6 +1,10 @@
 # AWS SAM
 .aws-sam/
 
+# DS Store
+**/.DS_Store
+*.DS_Store
+
 # Logs
 logs
 *.log

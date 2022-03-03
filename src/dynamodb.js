@@ -18,13 +18,13 @@ export function getFromDynamo(country) {
 
     return new Promise((resolve, reject) => {
         dynamodb.getItem(params, function(err, data) {
-            if (err) {
+            if (err || Object.keys(data).length === 0) {
                 console.log("An error occurred GETting country from dynamo");
-                //console.log(err, err.stack);
+                console.log(err);
                 reject(err);
             } else {
                 console.log("Successfully got", country, "from dynamo");
-                //console.log(JSON.stringify(data));
+                console.log(JSON.stringify(data));
                 resolve(AWS.DynamoDB.Converter.unmarshall(data["Item"]));
             }
         });
