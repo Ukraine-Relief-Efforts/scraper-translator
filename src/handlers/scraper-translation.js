@@ -13,23 +13,7 @@ const require = createRequire(import.meta.url);
 export const handler = async(event, context) => {
 
     console.log('Starting translator handler');
-
-    const locale_to_gtrans = {
-        "de": "de",
-        "en": "en",
-        "es": "es",
-        "it": "it",
-        "kr": "ko",
-        "pl": "pl",
-        "rs": "sr",
-        "ua": "uk",
-        "hu": "hu",
-        "ro": "ro",
-        "ru": "ru",
-    };
-
     //NOTE: order matters, high value languages first (in case something goes terribly wrong)
-    
     const target_locales = ["ua", "ru", "en", "pl", "rs", "ro", "hu", "de", "es", "it", "kr"];
     const source_locales = ["hu",      "ro",      "pl",     "ro"];
     const source_entries = ["hungary", "moldova", "poland", "romania"]; //TODO get this list automatically?

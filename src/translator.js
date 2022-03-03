@@ -5,6 +5,21 @@ const location = 'global';
 
 const translationClient = new TranslationServiceClient({"keyFilename": "google_cloud_secret.json"});
 
+const locale_to_gtrans = {
+        "de": "de",
+        "en": "en",
+        "es": "es",
+        "it": "it",
+        "kr": "ko",
+        "pl": "pl",
+        "rs": "sr",
+        "ua": "uk",
+        "hu": "hu",
+        "ro": "ro",
+        "ru": "ru",
+    };
+
+
 export async function translate(texts, source, dest) {
     if (texts.length === 0) return [];
 
@@ -12,8 +27,8 @@ export async function translate(texts, source, dest) {
         parent: `projects/${projectId}/locations/${location}`,
         contents: texts,
         mimeType: 'text/plain',
-        sourceLanguageCode: source,
-        targetLanguageCode: dest,
+        sourceLanguageCode: locale_to_gtrans[source],
+        targetLanguageCode: locale_to_gtrans[dest],
     };
 
     const [response] = await translationClient.translateText(request);
