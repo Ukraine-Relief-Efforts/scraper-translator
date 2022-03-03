@@ -19,7 +19,7 @@ export function getFromDynamo(country) {
     return new Promise((resolve, reject) => {
         dynamodb.getItem(params, function(err, data) {
             if (err || Object.keys(data).length === 0) {
-                console.log("An error occurred GETting country from dynamo");
+                console.log("An error occurred GETting", country, "from dynamo");
                 console.log(err);
                 reject(err);
             } else {
