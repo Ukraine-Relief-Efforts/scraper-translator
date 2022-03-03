@@ -34,12 +34,12 @@ export const handler = async(event, context) => {
                     Object.keys(old_val_translated.reception).length === 0) {
                     null.toString(); //hack fix: somehow just cause it to to to the `catch` blocks
                 }
-                const new_val_translated = translate_object(old_val, new_val, old_val_translated, source_locale, target_locale, source_entry);
+                const new_val_translated = await translate_object(old_val, new_val, old_val_translated, source_locale, target_locale, source_entry);
                 await putToDynamo(new_val_translated);
             } catch (e) {
                 //translate object from scratch if it doesn't exist
                 console.log("Translated object doesn't exist, here's the error just in case anything else went wrong: ", e);
-                const new_val_translated = translate_object_from_scratch(new_val, source_locale, target_locale, source_entry);
+                const new_val_translated = await translate_object_from_scratch(new_val, source_locale, target_locale, source_entry);
                 await putToDynamo(new_val_translated);
             }
         }
