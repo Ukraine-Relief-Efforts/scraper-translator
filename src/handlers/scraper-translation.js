@@ -22,7 +22,6 @@ export const handler = async(event, context) => {
         const source_locale = source_locales[i];
         for (const target_locale of target_locales) {
             //don't translate if it's already in that language
-            if (target_locale === source_locale) continue;
             console.log("Translating " + source_entry + "-" + source_locale + " to " + target_locale);
             const new_val = await getFromDynamo(source_entry + "-" + source_locale);
             try {
@@ -43,5 +42,14 @@ export const handler = async(event, context) => {
                 await putToDynamo(new_val_translated);
             }
         }
+    }
+
+    //rename items with a -old suffix
+    for (let i = 0; i < source_entries.length; i++) {
+        const source_entry = source_entries[i];
+        const source_locale = source_locales[i];
+        let val = await getFromDynamo(source_entry + "-" + source_locale);
+        val["country"] = source_entry + "-" + source_locale + "-old";
+        await putToDynamo(val);
     }
 }
