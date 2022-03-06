@@ -11,7 +11,7 @@ export function getFromDynamo(country) {
         TableName: "TechForUkraine-CIG",
         Key: { 
             "country": {
-                S: country 
+                S: country
             }
         }
     };
