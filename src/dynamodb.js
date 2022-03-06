@@ -45,7 +45,7 @@ export function putToDynamo(item) {
                 console.log(err, err.stack);
                 reject(err);
             } else {
-                console.log("Successfully put", item["country"]["S"], "to dynamo");
+                console.log("Successfully put", item["country"], "to dynamo");
                 //console.log(JSON.stringify(data));
                 resolve(data);
             }
