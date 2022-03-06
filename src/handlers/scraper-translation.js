@@ -22,6 +22,9 @@ export const handler = async(event, context) => {
         const source_locale = source_locales[i];
         for (const target_locale of target_locales) {
             //don't translate if it's already in that language
+            if (source_locale == target_locale) {
+                continue;
+            }
             console.log("Translating " + source_entry + "-" + source_locale + " to " + target_locale);
             const new_val = await getFromDynamo(source_entry + "-" + source_locale);
             try {
