@@ -22,9 +22,6 @@ const locale_to_gtrans = {
 
 export async function translate(texts, source, dest) {
     if (texts.length === 0) return [];
-
-    console.log(texts);
-
     const request = {
         parent: `projects/${projectId}/locations/${location}`,
         contents: texts,
