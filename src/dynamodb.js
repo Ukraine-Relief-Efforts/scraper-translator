@@ -11,7 +11,7 @@ export function getFromDynamo(country) {
         TableName: "TechForUkraine-CIG",
         Key: { 
             "country": {
-                S: country 
+                S: country + "---test"
             }
         }
     };
@@ -32,6 +32,7 @@ export function getFromDynamo(country) {
 }
 
 export function putToDynamo(item) {
+    item["country"] = item["country"] + "---test";
     var params = {
         TableName: "TechForUkraine-CIG",
         Item: AWS.DynamoDB.Converter.marshall(item)
