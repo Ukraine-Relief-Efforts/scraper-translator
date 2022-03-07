@@ -17,6 +17,7 @@ const locale_to_gtrans = {
         "hu": "hu",
         "ro": "ro",
         "ru": "ru",
+        "sk": "sk",
     };
 
 
