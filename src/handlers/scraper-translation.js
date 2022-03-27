@@ -14,8 +14,8 @@ export const handler = async(event, context) => {
 
     console.log('Starting translator handler');
     //NOTE: order matters, high value languages first (in case something goes terribly wrong)
-    const target_locales = ["ua", "ru", "en", "pl", "rs", "ro", "hu", "de", "es", "it", "kr"];
-    const source_locales = ["hu",      "ro",      "pl",     "ro",      "sk"];
+    const target_locales = ["ua", "ru", "en", "pl", "rs", "ro", "hu", "de", "es", "it", "kr", "zh-CN"];
+    const source_locales = ["hu",      "ro",      "en",     "ro",      "sk"];
     const source_entries = ["hungary", "moldova", "poland", "romania", "slovakia"]; //TODO get this list automatically?
     for (let i = 0; i < source_entries.length; i++) {
         const source_entry = source_entries[i];
